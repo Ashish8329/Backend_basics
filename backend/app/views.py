@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from rest_framework import viewsets
 
 # Create your views here.
 def call_api(request):
@@ -33,8 +33,30 @@ class ApiViews(View):
         return JsonResponse({"data":body})
     
 class API_withView(APIView):
+
     def get(self, request):
         return Response(status=200, data="done")
 
     def post(self, request):
         return Response(status=202, data='created')
+
+
+class ClassBasedViewset(viewsets.ViewSet):
+    def list(self, request):
+        return Response(status=200, data='working list')
+    
+    def retrieve(self, request, pk):
+        return Response(status=200, data='working retrieve')
+    
+    def create(self, request):
+        return Response(status=200, data='working create')
+    
+    def destroy(self, request, pk):
+        return Response(status=200, data='working destroy')
+    
+
+    def update(self, request, pk):
+        return Response(status=200, data='working update')
+    
+    def partial_update(self, request, pk):
+        return Response(status=200, data='working partial_update')

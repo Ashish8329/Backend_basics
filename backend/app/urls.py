@@ -1,8 +1,10 @@
 from django.urls import path
-from .views import call_api, call_html, ApiViews, API_withView
+from .views import call_api, call_html, ApiViews, API_withView, ClassBasedViewset
 from rest_framework import routers
 
 router = routers.DefaultRouter()
+
+router.register('viewset', ClassBasedViewset, basename='class')
 
 
 urlpatterns = [
@@ -11,3 +13,5 @@ urlpatterns = [
     path('view/', ApiViews.as_view()),
     path('apiview/',API_withView.as_view() )
 ]
+
+urlpatterns += router.urls

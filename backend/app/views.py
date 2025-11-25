@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
+from rest_framework.pagination import LimitOffsetPagination 
+import requests
 
 # Create your views here.
 def call_api(request):
@@ -43,7 +45,20 @@ class API_withView(APIView):
 
 class ClassBasedViewset(viewsets.ViewSet):
     def list(self, request):
-        return Response(status=200, data='working list')
+
+        # ---- 1) Call EXTERNAL API ----
+        url = "https://jsonplaceholder.typicode.com/posts"
+        external_response = requests.get(url)
+        data = external_response.json() # This is a Python list
+
+        # ---- 2) Paginate the Python list ----
+        paginator = LimitOffsetPagination()
+        paginator.default_limit = 10   # optional override
+
+        paginated_list = paginator.paginate_queryset(data, request)
+
+        # ---- 3) Return paginated response ----
+        return paginator.get_paginated_response(paginated_list)
     
     def retrieve(self, request, pk):
         return Response(status=200, data='working retrieve')

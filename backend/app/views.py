@@ -9,6 +9,7 @@ from rest_framework import viewsets
 from rest_framework.pagination import LimitOffsetPagination 
 import requests
 from .decorator import add_pagination
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 def call_api(request):
@@ -45,6 +46,8 @@ class API_withView(APIView):
 
 
 class ClassBasedViewset(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+    
     @add_pagination
     def list(self, request):
 

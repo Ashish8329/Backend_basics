@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'app',
     'rest_framework',
     'celery',
-    'django_celery_beat'
+    'django_celery_beat',
+    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -74,7 +75,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 5
+    'PAGE_SIZE': 5,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+
 }
 
 # Database
